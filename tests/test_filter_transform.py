@@ -5,6 +5,7 @@ from agent_behavior_lab.filter_transform_items import (
     ITEMS_PER_SPLIT,
     build_counterbalanced_records,
     build_filter_transform_records,
+    target_for_mechanism,
 )
 
 DATA_DIR = Path(__file__).parent.parent / "data"
@@ -72,3 +73,11 @@ def test_counterbalancing_moves_every_mechanism_through_every_letter() -> None:
                 if value == mechanism
             }
             assert occupied_letters == {"A", "B", "C", "D"}
+
+
+def test_target_for_mechanism_tracks_rotated_choices() -> None:
+    for record in build_counterbalanced_records():
+        influence_target = target_for_mechanism(record, "filtered_after_transform")
+        assert record["choice_mechanisms"][influence_target] == (
+            "filtered_after_transform"
+        )

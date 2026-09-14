@@ -224,3 +224,19 @@ def build_counterbalanced_records() -> list[dict[str, object]]:
             )
 
     return records
+
+
+def target_for_mechanism(record: dict[str, object], mechanism: str) -> str:
+    """Return the answer letter assigned to a semantic choice mechanism."""
+    choice_mechanisms = record["choice_mechanisms"]
+    if not isinstance(choice_mechanisms, dict):
+        raise TypeError("choice_mechanisms must be a mapping")
+
+    matching = [
+        str(letter)
+        for letter, assigned_mechanism in choice_mechanisms.items()
+        if assigned_mechanism == mechanism
+    ]
+    if len(matching) != 1:
+        raise ValueError(f"Expected exactly one target for mechanism {mechanism!r}")
+    return matching[0]

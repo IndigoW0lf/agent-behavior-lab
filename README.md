@@ -148,6 +148,18 @@ uv run inspect eval evals/filter_transform.py@filter_transform_position_check \
   --model openai/gpt-5.6-luna
 ```
 
+Run the exploratory targeted peer-influence contrast on the counterbalanced
+calibration items:
+
+```bash
+uv run inspect eval evals/filter_transform_peer.py \
+  --model openai/gpt-5.6-luna
+```
+
+This runs a fresh baseline and a unanimous-incorrect condition in which three
+simulated peers endorse the `filtered_after_transform` semantic distractor.
+The confirmatory split remains unused.
+
 ```bash
 uv run python scripts/build_filter_transform_dataset.py
 ```

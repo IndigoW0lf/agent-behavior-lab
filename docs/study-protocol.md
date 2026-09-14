@@ -1,6 +1,6 @@
 # Study 001 Protocol: Peer Influence
 
-Status: **scaffold / not yet run**
+Status: **exploratory calibration / confirmatory split sealed**
 
 ## Research question
 
@@ -60,6 +60,21 @@ Items must:
 - pass programmatic schema and answer-key checks.
 
 The initial 12-item set is a pipeline pilot, not enough evidence for a strong scientific conclusion.
+
+## Exploratory calibration history
+
+The general calibration pool produced a repeated error on one Python
+list-comprehension item. A generated filter/transform pool then found errors
+that consistently selected the `filtered_after_transform` semantic distractor.
+Counterbalancing moved every semantic choice through every answer letter; all
+eight errors still selected that mechanism, ruling out a simple fixed-letter
+preference as the explanation.
+
+The next exploratory contrast reruns the counterbalanced calibration items at
+baseline and with three simulated peers endorsing that specific distractor.
+These calibration items are not eligible for the final confirmatory estimate.
+The separately generated confirmatory split must remain unrun until the final
+conditions, sample size, exclusions, and analysis are frozen.
 
 ## Run controls
 
