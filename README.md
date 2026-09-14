@@ -140,6 +140,14 @@ uv run inspect eval evals/filter_transform.py \
 The generator creates separate calibration and confirmatory splits. Do not run
 the confirmatory split while developing or selecting the manipulation.
 
+Run the counterbalanced position check before attributing errors to a reasoning
+mechanism. It rotates each semantic answer through all four letter positions:
+
+```bash
+uv run inspect eval evals/filter_transform.py@filter_transform_position_check \
+  --model openai/gpt-5.6-luna
+```
+
 ```bash
 uv run python scripts/build_filter_transform_dataset.py
 ```

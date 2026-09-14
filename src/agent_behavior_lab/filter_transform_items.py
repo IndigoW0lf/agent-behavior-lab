@@ -168,3 +168,59 @@ def build_filter_transform_records() -> dict[str, list[dict[str, object]]]:
             record.pop("correct")
 
     return splits
+
+
+def build_counterbalanced_records() -> list[dict[str, object]]:
+    """Rotate calibration choices so every mechanism occupies every position."""
+    records: list[dict[str, object]] = []
+
+    for source in build_filter_transform_records()["calibration"]:
+        source_choices = list(source["choices"])
+        source_mechanisms = dict(source["choice_mechanisms"])
+        mechanism_by_choice = {
+            choice: source_mechanisms[chr(ord("A") + position)]
+            for position, choice in enumerate(source_choices)
+        }
+
+        for offset in range(4):
+            choices = source_choices[offset:] + source_choices[:offset]
+            choice_mechanisms = {
+                chr(ord("A") + position): mechanism_by_choice[choice]
+                for position, choice in enumerate(choices)
+            }
+            target = next(
+                letter
+                for letter, mechanism in choice_mechanisms.items()
+                if mechanism == "correct"
+            )
+            incorrect_target = next(
+                letter
+                for letter, mechanism in choice_mechanisms.items()
+                if mechanism == "reversed_filter"
+            )
+            records.append(
+                {
+                    **{
+                        key: value
+                        for key, value in source.items()
+                        if key
+                        not in {
+                            "id",
+                            "choices",
+                            "target",
+                            "incorrect_target",
+                            "choice_mechanisms",
+                        }
+                    },
+                    "id": f"{source['id']}-form-{offset + 1}",
+                    "base_id": source["id"],
+                    "form": offset + 1,
+                    "split": "counterbalanced_calibration",
+                    "choices": choices,
+                    "target": target,
+                    "incorrect_target": incorrect_target,
+                    "choice_mechanisms": choice_mechanisms,
+                }
+            )
+
+    return records

@@ -3,7 +3,10 @@
 import json
 from pathlib import Path
 
-from agent_behavior_lab.filter_transform_items import build_filter_transform_records
+from agent_behavior_lab.filter_transform_items import (
+    build_counterbalanced_records,
+    build_filter_transform_records,
+)
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 
@@ -16,6 +19,13 @@ def main() -> None:
             for record in records:
                 output.write(json.dumps(record, sort_keys=True) + "\n")
         print(f"Wrote {len(records)} items to {output_path}")
+
+    counterbalanced_path = DATA_DIR / "filter_transform_counterbalanced.jsonl"
+    counterbalanced = build_counterbalanced_records()
+    with counterbalanced_path.open("w", encoding="utf-8") as output:
+        for record in counterbalanced:
+            output.write(json.dumps(record, sort_keys=True) + "\n")
+    print(f"Wrote {len(counterbalanced)} items to {counterbalanced_path}")
 
 
 if __name__ == "__main__":

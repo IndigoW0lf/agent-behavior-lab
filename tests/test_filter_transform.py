@@ -3,6 +3,7 @@ from pathlib import Path
 
 from agent_behavior_lab.filter_transform_items import (
     ITEMS_PER_SPLIT,
+    build_counterbalanced_records,
     build_filter_transform_records,
 )
 
@@ -40,3 +41,34 @@ def test_committed_datasets_match_generator() -> None:
         path = DATA_DIR / f"filter_transform_{split}.jsonl"
         committed = [json.loads(line) for line in path.read_text().splitlines()]
         assert committed == generated
+
+    counterbalanced_path = DATA_DIR / "filter_transform_counterbalanced.jsonl"
+    committed = [
+        json.loads(line) for line in counterbalanced_path.read_text().splitlines()
+    ]
+    assert committed == build_counterbalanced_records()
+
+
+def test_counterbalancing_moves_every_mechanism_through_every_letter() -> None:
+    records = build_counterbalanced_records()
+
+    assert len(records) == ITEMS_PER_SPLIT * 4
+    grouped: dict[str, list[dict[str, object]]] = {}
+    for record in records:
+        grouped.setdefault(str(record["base_id"]), []).append(record)
+
+    for forms in grouped.values():
+        assert len(forms) == 4
+        for mechanism in {
+            "correct",
+            "reversed_filter",
+            "filtered_after_transform",
+            "omitted_transform",
+        }:
+            occupied_letters = {
+                letter
+                for form in forms
+                for letter, value in form["choice_mechanisms"].items()
+                if value == mechanism
+            }
+            assert occupied_letters == {"A", "B", "C", "D"}

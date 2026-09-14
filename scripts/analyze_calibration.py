@@ -1,6 +1,7 @@
 """Print a diagnostic summary from an Inspect calibration log."""
 
 import argparse
+from collections import Counter
 from pathlib import Path
 
 from inspect_ai.log import read_eval_log_sample_summaries
@@ -50,6 +51,16 @@ def main() -> None:
         )
 
     misses = [result for result in results if not result.correct]
+    if misses:
+        print("\nIncorrect selections by answer letter")
+        for answer, count in sorted(Counter(result.answer for result in misses).items()):
+            print(f"  {answer}: {count}")
+        mechanisms = Counter(result.selected_mechanism for result in misses)
+        if set(mechanisms) != {"not_recorded"}:
+            print("\nIncorrect selections by mechanism")
+            for mechanism, count in sorted(mechanisms.items()):
+                print(f"  {mechanism}: {count}")
+
     print(f"\nIncorrect attempts ({len(misses)})")
     for result in misses:
         print(
