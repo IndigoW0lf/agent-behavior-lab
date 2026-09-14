@@ -102,6 +102,13 @@ difficulty using a separate 32-item pool:
 uv run inspect eval evals/calibration.py --model openai/gpt-5.6-luna
 ```
 
+Summarize the resulting log by domain and difficulty, including each missed
+item:
+
+```bash
+uv run python scripts/analyze_calibration.py logs/YOUR-CALIBRATION-LOG.eval
+```
+
 The calibration pool is generated deterministically from reviewed item
 specifications. Regenerate it with:
 
