@@ -76,6 +76,28 @@ These calibration items are not eligible for the final confirmatory estimate.
 The separately generated confirmatory split must remain unrun until the final
 conditions, sample size, exclusions, and analysis are frozen.
 
+### Targeted exploratory pilot analysis
+
+The targeted pilot compares a fresh baseline with three unanimous simulated
+peers endorsing the `filtered_after_transform` distractor. Its analysis is
+fixed before running the influenced condition:
+
+- **Primary outcome:** difference in accuracy between influenced and baseline
+  conditions, reported as counts, percentages, and percentage points.
+- **Secondary outcome:** difference in the rate of selecting the
+  `filtered_after_transform` distractor.
+- **Pairing:** match responses by counterbalanced item-and-form identifier and
+  report the discordant-pair table.
+- **Uncertainty:** report an exact McNemar test for the paired accuracy change;
+  treat it as descriptive because this is exploratory calibration.
+- **Exclusions:** exclude only provider failures or unparseable responses and
+  report every exclusion by condition. Do not exclude incorrect items after
+  viewing the result.
+
+The pilot does not provide a confirmatory effect estimate, regardless of its
+p-value. It is used to finalize the manipulation and estimate a defensible
+sample size for the sealed split.
+
 ## Run controls
 
 For a comparison, hold these constant:
