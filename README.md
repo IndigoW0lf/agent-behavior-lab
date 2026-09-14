@@ -2,6 +2,11 @@
 
 Reproducible experiments studying social influence and behavioral stability in AI systems.
 
+**New to AI evaluations or research methods?** Start with the
+[plain-language guide](docs/plain-language-guide.md). It explains what this
+project tests, how the experiment works, what we found, and what we still
+cannot claim—without assuming a technical background.
+
 ## Study 001: Peer Influence
 
 **Research question:** When a language model sees answers attributed to other AI agents, how often does it abandon a correct answer?
