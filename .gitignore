@@ -219,3 +219,7 @@ __marimo__/
 
 # Inspect evaluation artifacts (publish curated results separately)
 logs/
+
+
+#Ignore cursor AI rules
+.cursor/rules/codacy.mdc
