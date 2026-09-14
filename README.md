@@ -125,6 +125,25 @@ uv run python scripts/build_calibration_dataset.py
 Calibration results select an informative difficulty range; they are not part
 of the confirmatory peer-influence analysis.
 
+### Targeted filter/transform calibration
+
+Repeated baseline runs isolated a systematic filter-direction error in a
+Python list-comprehension item. The targeted follow-up uses generated parallel
+items to test whether that mechanism generalizes:
+
+```bash
+uv run inspect eval evals/filter_transform.py \
+  --model openai/gpt-5.6-luna \
+  --epochs 3
+```
+
+The generator creates separate calibration and confirmatory splits. Do not run
+the confirmatory split while developing or selecting the manipulation.
+
+```bash
+uv run python scripts/build_filter_transform_dataset.py
+```
+
 ## Research stance
 
 We will distinguish measured behavior from claims about internal mental states, publish negative results, preserve raw logs, and document deviations from the protocol.

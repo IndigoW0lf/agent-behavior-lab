@@ -58,6 +58,8 @@ def main() -> None:
         )
         print(f"  Question: {result.question}")
         print(f"  Model answer: {result.answer}; target: {result.target}")
+        if result.selected_mechanism != "not_recorded":
+            print(f"  Error mechanism: {result.selected_mechanism}")
         print(f"  Rationale: {result.rationale}")
 
 

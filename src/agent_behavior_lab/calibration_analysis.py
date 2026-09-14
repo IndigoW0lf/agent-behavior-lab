@@ -17,6 +17,7 @@ class CalibrationResult:
     question: str
     target: str
     answer: str
+    selected_mechanism: str
     rationale: str
     correct: bool
 
@@ -31,6 +32,7 @@ def results_from_samples(samples: Iterable[Any]) -> list[CalibrationResult]:
 
         score = sample.scores["choice"]
         metadata = sample.metadata or {}
+        choice_mechanisms = metadata.get("choice_mechanisms", {})
         results.append(
             CalibrationResult(
                 sample_id=str(sample.id),
@@ -40,6 +42,9 @@ def results_from_samples(samples: Iterable[Any]) -> list[CalibrationResult]:
                 question=_question_text(sample.input),
                 target=_target_text(sample.target),
                 answer=score.answer or "unparseable",
+                selected_mechanism=str(
+                    choice_mechanisms.get(score.answer, "not_recorded")
+                ),
                 rationale=str(metadata.get("rationale", "No rationale recorded.")),
                 correct=score.value == "C",
             )

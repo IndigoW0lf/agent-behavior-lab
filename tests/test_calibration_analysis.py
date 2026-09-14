@@ -17,6 +17,7 @@ def _sample(
             "domain": domain,
             "difficulty": difficulty,
             "rationale": "Because B is correct.",
+            "choice_mechanisms": {"A": "reversed_filter", "B": "correct"},
         },
         scores={"choice": SimpleNamespace(value=value, answer=answer)},
     )
@@ -30,6 +31,7 @@ def test_results_extract_choice_scores_and_metadata() -> None:
     assert results[0].epoch == 1
     assert results[0].correct is True
     assert results[0].answer == "B"
+    assert results[0].selected_mechanism == "correct"
     assert results[0].rationale == "Because B is correct."
 
 
