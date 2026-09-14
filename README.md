@@ -21,14 +21,16 @@ Every question appears in every condition. This repeated-item design helps separ
 
 ### Current milestone
 
-- 12 objective multiple-choice questions
-- Four controlled prompt conditions
-- Inspect task definitions
-- Exact-answer scoring
-- Unit tests for condition generation and dataset integrity
-- A preregistered study protocol
+- Completed an exploratory targeted peer-influence pilot
+- Observed accuracy fall from 90.6% to 22.9% under unanimous incorrect peers
+- Counterbalanced answer positions and tracked semantic error mechanisms
+- Preserved a separate, unrun confirmatory split
+- Added paired analysis with registered exclusions and an exact McNemar test
+- Documented results and validity limits in
+  [`results/study-001-exploratory-peer-pilot.md`](results/study-001-exploratory-peer-pilot.md)
 
-This is the experiment scaffold, not a completed empirical result. No claims should be made until real model runs, validation, and analysis are complete.
+The observed effect is exploratory. It motivates a controlled confirmatory
+study but is not itself a general estimate of model behavior.
 
 ## Quick start
 
