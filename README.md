@@ -160,6 +160,14 @@ This runs a fresh baseline and a unanimous-incorrect condition in which three
 simulated peers endorse the `filtered_after_transform` semantic distractor.
 The confirmatory split remains unused.
 
+Compare the two resulting logs with the prespecified paired analysis:
+
+```bash
+uv run python scripts/compare_peer_influence.py \
+  logs/BASELINE.eval \
+  logs/UNANIMOUS-INCORRECT.eval
+```
+
 ```bash
 uv run python scripts/build_filter_transform_dataset.py
 ```
