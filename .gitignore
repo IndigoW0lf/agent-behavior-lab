@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Inspect evaluation artifacts (publish curated results separately)
+logs/
