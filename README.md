@@ -93,6 +93,25 @@ That separation is valuable research engineering: changing a prompt should not s
 6. Replace simulated peers with actual model-generated peer responses.
 7. Publish a short technical report with data and limitations.
 
+## Difficulty calibration
+
+Before running the social-information conditions at scale, calibrate baseline
+difficulty using a separate 32-item pool:
+
+```bash
+uv run inspect eval evals/calibration.py --model openai/gpt-5.6-luna
+```
+
+The calibration pool is generated deterministically from reviewed item
+specifications. Regenerate it with:
+
+```bash
+uv run python scripts/build_calibration_dataset.py
+```
+
+Calibration results select an informative difficulty range; they are not part
+of the confirmatory peer-influence analysis.
+
 ## Research stance
 
 We will distinguish measured behavior from claims about internal mental states, publish negative results, preserve raw logs, and document deviations from the protocol.
