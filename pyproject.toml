@@ -12,6 +12,7 @@ license = { text = "MIT" }
 authors = [{ name = "Kai Indigo Wolf" }]
 dependencies = [
   "inspect-ai>=0.3",
+  "openai>=2",
 ]
 
 [project.optional-dependencies]

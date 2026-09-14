@@ -44,13 +44,13 @@ cp .env.example .env
 Add one model-provider API key to `.env`, then run a cheap three-question smoke test:
 
 ```bash
-uv run inspect eval evals/peer_influence.py --model openai/gpt-5 --limit 3
+uv run inspect eval evals/peer_influence.py --model openai/gpt-5.6-luna --limit 3
 ```
 
 Run the full set only after inspecting the smoke-test prompts and logs:
 
 ```bash
-uv run inspect eval evals/peer_influence.py --model openai/gpt-5
+uv run inspect eval evals/peer_influence.py --model openai/gpt-5.6-luna
 uv run inspect view
 ```
 
