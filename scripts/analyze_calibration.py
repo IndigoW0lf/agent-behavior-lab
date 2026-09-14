@@ -36,10 +36,26 @@ def main() -> None:
     _print_group("By domain", results, "domain")
     _print_group("By difficulty", results, "difficulty")
 
+    by_item = grouped_accuracy(results, "sample_id")
+    nonperfect_items = {
+        sample_id: counts
+        for sample_id, counts in by_item.items()
+        if counts[0] < counts[1]
+    }
+    print(f"\nNon-perfect items ({len(nonperfect_items)})")
+    for sample_id, (item_correct, item_total) in nonperfect_items.items():
+        print(
+            f"  {sample_id}: {item_correct}/{item_total} "
+            f"({_percentage(item_correct, item_total)})"
+        )
+
     misses = [result for result in results if not result.correct]
-    print(f"\nMissed items ({len(misses)})")
+    print(f"\nIncorrect attempts ({len(misses)})")
     for result in misses:
-        print(f"\n  {result.sample_id} [{result.domain}; {result.difficulty}]")
+        print(
+            f"\n  {result.sample_id}, epoch {result.epoch} "
+            f"[{result.domain}; {result.difficulty}]"
+        )
         print(f"  Question: {result.question}")
         print(f"  Model answer: {result.answer}; target: {result.target}")
         print(f"  Rationale: {result.rationale}")

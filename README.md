@@ -109,6 +109,12 @@ item:
 uv run python scripts/analyze_calibration.py logs/YOUR-CALIBRATION-LOG.eval
 ```
 
+For a stability check, run five independent epochs and analyze the new log:
+
+```bash
+uv run inspect eval evals/calibration.py --model openai/gpt-5.6-luna --epochs 5
+```
+
 The calibration pool is generated deterministically from reviewed item
 specifications. Regenerate it with:
 

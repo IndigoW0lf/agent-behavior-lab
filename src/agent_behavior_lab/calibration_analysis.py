@@ -11,6 +11,7 @@ class CalibrationResult:
     """The fields needed to diagnose one calibration response."""
 
     sample_id: str
+    epoch: int
     domain: str
     difficulty: str
     question: str
@@ -33,6 +34,7 @@ def results_from_samples(samples: Iterable[Any]) -> list[CalibrationResult]:
         results.append(
             CalibrationResult(
                 sample_id=str(sample.id),
+                epoch=int(sample.epoch),
                 domain=str(metadata.get("domain", "unknown")),
                 difficulty=str(metadata.get("difficulty", "unknown")),
                 question=_question_text(sample.input),
