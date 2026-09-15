@@ -4,6 +4,7 @@ import pytest
 
 from agent_behavior_lab.peer_comparison import (
     PairedCounts,
+    confirmatory_success,
     exact_mcnemar_p_value,
     index_unique,
     paired_counts,
@@ -104,3 +105,9 @@ def test_condition_validation_rejects_log_in_wrong_argument_position() -> None:
 
     with pytest.raises(ValueError, match="Expected condition 'repeated_incorrect'"):
         require_condition(trials, "repeated_incorrect")
+
+
+def test_confirmatory_decision_requires_direction_and_two_sided_alpha() -> None:
+    assert confirmatory_success(-25.0, 0.01)
+    assert not confirmatory_success(25.0, 0.01)
+    assert not confirmatory_success(-25.0, 0.05)

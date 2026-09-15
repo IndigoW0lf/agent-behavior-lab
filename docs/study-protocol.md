@@ -1,6 +1,6 @@
 # Study 001 Protocol: Peer Influence
 
-Status: **exploratory calibration / confirmatory split sealed**
+Status: **exploratory controls complete / confirmatory protocol frozen**
 
 ## Research question
 
@@ -129,6 +129,17 @@ The analysis is fixed before collecting repetition-control responses:
 This control can separate social attribution from simple repetition in this
 prompt design. It cannot by itself establish a human-like social process, and
 differences in surrounding wording remain a possible explanation.
+
+The repetition control produced 75/96 correct responses (78.1%), compared with
+22/96 (22.9%) under named unanimous peers. In the paired primary contrast, 53
+responses changed from correct under repetition to wrong under peers and zero
+changed in the opposite direction. The targeted-error selection rate increased
+from 20.8% to 77.1%. Full results appear in
+[`../results/study-001-repetition-control.md`](../results/study-001-repetition-control.md).
+
+The final held-out design, primary test, power rationale, and decision rule are
+frozen in [`confirmatory-plan.md`](confirmatory-plan.md). That document governs
+the confirmatory run if it conflicts with earlier exploratory plans here.
 
 ## Run controls
 

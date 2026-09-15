@@ -35,6 +35,8 @@ Every question appears in every condition. This repeated-item design helps separ
 - Repetition reduced accuracy to 78.1%; named peers reduced it to 22.9%
 - Documented the [peer pilot](results/study-001-exploratory-peer-pilot.md) and
   [social-framing control](results/study-001-repetition-control.md)
+- Froze the 48-item [confirmatory plan](docs/confirmatory-plan.md) before any
+  held-out model run
 
 The observed effect is exploratory. It motivates a controlled confirmatory
 study but is not itself a general estimate of model behavior.
@@ -190,6 +192,17 @@ uv run python scripts/compare_social_framing.py \
 
 The registered primary contrast is peers minus repetition. Baseline is shown
 only as a descriptive reference for this control.
+
+After the exploratory controls are complete, run the frozen confirmatory study
+exactly once:
+
+```bash
+uv run inspect eval evals/filter_transform_confirmatory.py \
+  --model openai/gpt-5.6-luna
+```
+
+See [`docs/confirmatory-plan.md`](docs/confirmatory-plan.md) for the frozen
+hypothesis, power rationale, exclusions, and analysis command.
 
 Compare the two resulting logs with the prespecified paired analysis:
 

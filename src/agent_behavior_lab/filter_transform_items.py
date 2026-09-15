@@ -1,11 +1,12 @@
 """Generate parallel code-tracing items for filter/transform confusion."""
 
 from dataclasses import dataclass
-from itertools import product
+from itertools import permutations, product
 from random import Random
 
 SEED = 20_260_914
-ITEMS_PER_SPLIT = 24
+CALIBRATION_ITEMS = 24
+CONFIRMATORY_ITEMS = 48
 
 
 @dataclass(frozen=True)
@@ -117,7 +118,7 @@ def _candidate_record(
 
 
 def build_filter_transform_records() -> dict[str, list[dict[str, object]]]:
-    """Create deterministic calibration and preregistered confirmatory splits."""
+    """Create deterministic calibration and held-out confirmatory splits."""
     rng = Random(SEED)
     candidates = [
         candidate
@@ -127,20 +128,39 @@ def build_filter_transform_records() -> dict[str, list[dict[str, object]]]:
         if (candidate := _candidate_record(values, transform, predicate)) is not None
     ]
     rng.shuffle(candidates)
-    selected = candidates[: ITEMS_PER_SPLIT * 2]
+    selected = candidates[: CALIBRATION_ITEMS + CONFIRMATORY_ITEMS]
     splits = {
-        "calibration": selected[:ITEMS_PER_SPLIT],
-        "confirmatory": selected[ITEMS_PER_SPLIT:],
+        "calibration": selected[:CALIBRATION_ITEMS],
+        "confirmatory": selected[CALIBRATION_ITEMS:],
     }
+
+    mechanism_names = (
+        "correct",
+        "reversed_filter",
+        "filtered_after_transform",
+        "omitted_transform",
+    )
+    confirmatory_orders = list(permutations(mechanism_names)) * 2
+    Random(SEED + 1).shuffle(confirmatory_orders)
 
     for split, records in splits.items():
         for index, record in enumerate(records, start=1):
-            mechanisms = record.pop("mechanisms")
-            assert isinstance(mechanisms, dict)
-            choices = list(mechanisms)
-            rng.shuffle(choices)
+            mechanism_by_choice = record.pop("mechanisms")
+            assert isinstance(mechanism_by_choice, dict)
+            if split == "confirmatory":
+                choice_by_mechanism = {
+                    mechanism: choice
+                    for choice, mechanism in mechanism_by_choice.items()
+                }
+                choices = [
+                    choice_by_mechanism[mechanism]
+                    for mechanism in confirmatory_orders[index - 1]
+                ]
+            else:
+                choices = list(mechanism_by_choice)
+                rng.shuffle(choices)
             mechanisms_by_letter = {
-                chr(ord("A") + position): str(mechanisms[choice])
+                chr(ord("A") + position): str(mechanism_by_choice[choice])
                 for position, choice in enumerate(choices)
             }
             target = next(

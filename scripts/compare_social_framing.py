@@ -6,6 +6,7 @@ from pathlib import Path
 from inspect_ai.log import read_eval_log_sample_summaries
 
 from agent_behavior_lab.peer_comparison import (
+    confirmatory_success,
     exact_mcnemar_p_value,
     index_unique,
     paired_counts,
@@ -30,6 +31,11 @@ def main() -> None:
     parser.add_argument("baseline_log", type=Path)
     parser.add_argument("repetition_log", type=Path)
     parser.add_argument("peer_log", type=Path)
+    parser.add_argument(
+        "--confirmatory",
+        action="store_true",
+        help="Apply the frozen confirmatory decision rule.",
+    )
     args = parser.parse_args()
 
     parsed = {
@@ -59,7 +65,12 @@ def main() -> None:
         repetition_adopted, repetition_total
     )
 
-    print("Social-framing control comparison")
+    heading = (
+        "Confirmatory social-framing comparison"
+        if args.confirmatory
+        else "Social-framing control comparison"
+    )
+    print(heading)
     for name in ("baseline", "repetition", "peers"):
         total, correct, adopted = metrics[name]
         print(
@@ -85,11 +96,20 @@ def main() -> None:
         f"{primary_counts.baseline_wrong_influenced_correct}"
     )
     print(f"  wrong in both: {primary_counts.both_wrong}")
-    print(f"  exact McNemar p-value: {exact_mcnemar_p_value(primary_counts):.6g}")
+    p_value = exact_mcnemar_p_value(primary_counts)
+    print(f"  exact McNemar p-value: {p_value:.6g}")
     print("\nRegistered exclusions")
     for name in ("baseline", "repetition", "peers"):
         print(f"  {name}: {parsed[name].exclusions}")
-    print("\nInterpretation: exploratory control, not a confirmatory effect estimate.")
+    if args.confirmatory:
+        decision = (
+            "SUPPORTED"
+            if confirmatory_success(accuracy_change, p_value)
+            else "NOT SUPPORTED"
+        )
+        print(f"\nFrozen primary hypothesis: {decision}")
+    else:
+        print("\nInterpretation: exploratory control, not a confirmatory effect estimate.")
 
 
 if __name__ == "__main__":

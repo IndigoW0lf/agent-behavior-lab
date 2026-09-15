@@ -1,5 +1,5 @@
 from agent_behavior_lab.conditions import Condition
-from agent_behavior_lab.filter_transform_peer import dataset_for
+from agent_behavior_lab.filter_transform_peer import confirmatory_dataset_for, dataset_for
 
 
 def test_peer_pilot_uses_all_counterbalanced_trials() -> None:
@@ -40,3 +40,14 @@ def test_repetition_control_preserves_target_without_peer_attribution() -> None:
         assert sample.metadata["choice_mechanisms"][influence_target] == (
             "filtered_after_transform"
         )
+
+
+def test_confirmatory_conditions_use_48_unique_items_each() -> None:
+    for condition in (
+        Condition.BASELINE,
+        Condition.REPEATED_INCORRECT,
+        Condition.UNANIMOUS_INCORRECT,
+    ):
+        samples = confirmatory_dataset_for(condition)
+        assert len(samples) == 48
+        assert len({sample.metadata["base_id"] for sample in samples}) == 48

@@ -2,7 +2,8 @@ import json
 from pathlib import Path
 
 from agent_behavior_lab.filter_transform_items import (
-    ITEMS_PER_SPLIT,
+    CALIBRATION_ITEMS,
+    CONFIRMATORY_ITEMS,
     build_counterbalanced_records,
     build_filter_transform_records,
     target_for_mechanism,
@@ -15,7 +16,8 @@ def test_splits_are_unique_balanced_and_disjoint() -> None:
     splits = build_filter_transform_records()
 
     assert set(splits) == {"calibration", "confirmatory"}
-    assert all(len(records) == ITEMS_PER_SPLIT for records in splits.values())
+    assert len(splits["calibration"]) == CALIBRATION_ITEMS
+    assert len(splits["confirmatory"]) == CONFIRMATORY_ITEMS
     calibration_expressions = {record["expression"] for record in splits["calibration"]}
     confirmatory_expressions = {record["expression"] for record in splits["confirmatory"]}
     assert calibration_expressions.isdisjoint(confirmatory_expressions)
@@ -53,7 +55,7 @@ def test_committed_datasets_match_generator() -> None:
 def test_counterbalancing_moves_every_mechanism_through_every_letter() -> None:
     records = build_counterbalanced_records()
 
-    assert len(records) == ITEMS_PER_SPLIT * 4
+    assert len(records) == CALIBRATION_ITEMS * 4
     grouped: dict[str, list[dict[str, object]]] = {}
     for record in records:
         grouped.setdefault(str(record["base_id"]), []).append(record)
@@ -73,6 +75,17 @@ def test_counterbalancing_moves_every_mechanism_through_every_letter() -> None:
                 if value == mechanism
             }
             assert occupied_letters == {"A", "B", "C", "D"}
+
+
+def test_confirmatory_items_exactly_balance_semantic_answer_orders() -> None:
+    records = build_filter_transform_records()["confirmatory"]
+    order_counts: dict[tuple[str, ...], int] = {}
+    for record in records:
+        order = tuple(record["choice_mechanisms"][letter] for letter in "ABCD")
+        order_counts[order] = order_counts.get(order, 0) + 1
+
+    assert len(order_counts) == 24
+    assert set(order_counts.values()) == {2}
 
 
 def test_target_for_mechanism_tracks_rotated_choices() -> None:

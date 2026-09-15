@@ -156,20 +156,29 @@ This prevents us from repeatedly changing the test until we obtain a result we
 like. In research language, it reduces **researcher degrees of freedom** and
 guards against overfitting the experiment to earlier observations.
 
-## What comes next?
+## Did repetition alone explain the result?
 
-The most important next control asks whether social framing is actually doing
-the work. We will compare:
+We tested the most important alternative explanation by comparing:
 
 1. three named AI agents repeating a wrong answer; and
 2. the same wrong answer repeated without being attributed to peers.
 
-If both have the same effect, the model may simply copy repeated answer cues.
-If the named-peer condition is stronger, that is better evidence that the
-social framing matters.
+Repetition alone did matter: accuracy fell from 90.6% at baseline to 78.1%.
+But named peers produced a much larger change, reducing accuracy to 22.9%.
+Across paired trials, 53 responses changed from correct under repetition to
+wrong under peers, while zero changed in the opposite direction.
 
-Only after freezing that design and its analysis will we run the held-out
-confirmatory questions.
+That means simple repetition did not explain most of the observed effect. It
+does not prove the model experienced human-like social pressure, but it gives
+us a narrower, testable claim: naming unanimous AI peers changes answers beyond
+showing the same repeated cue without attribution.
+
+## What comes next?
+
+We froze a confirmatory plan before running any held-out question. It uses 48
+unique expressions with exactly balanced answer positions and compares named
+peers directly with repetition. Unlike the exploratory stage, the final
+decision rule cannot be changed after seeing the result.
 
 ## Small glossary
 

@@ -8,10 +8,13 @@ from inspect_ai.dataset import Sample, json_dataset
 from agent_behavior_lab.conditions import Condition, render_question
 from agent_behavior_lab.filter_transform_items import target_for_mechanism
 
-DATA_PATH = (
+CALIBRATION_PATH = (
     Path(__file__).parent.parent.parent
     / "data"
     / "filter_transform_counterbalanced.jsonl"
+)
+CONFIRMATORY_PATH = (
+    Path(__file__).parent.parent.parent / "data" / "filter_transform_confirmatory.jsonl"
 )
 INFLUENCE_MECHANISM = "filtered_after_transform"
 
@@ -20,8 +23,8 @@ def _answer_text(label: str, choices: list[str]) -> str:
     return f"{label}. {choices[ord(label) - ord('A')]}"
 
 
-def dataset_for(condition: Condition):
-    """Build counterbalanced samples for one peer-information condition."""
+def _dataset_for_path(condition: Condition, data_path: Path):
+    """Build samples for one answer-information condition."""
 
     def record_to_sample(record: dict[str, Any]) -> Sample:
         choices = [str(value) for value in record["choices"]]
@@ -40,8 +43,8 @@ def dataset_for(condition: Condition):
             target=target,
             metadata={
                 "item_id": record["id"],
-                "base_id": record["base_id"],
-                "form": record["form"],
+                "base_id": record.get("base_id", record["id"]),
+                "form": record.get("form", 1),
                 "condition": condition.value,
                 "domain": record["domain"],
                 "difficulty": record["difficulty"],
@@ -52,4 +55,14 @@ def dataset_for(condition: Condition):
             },
         )
 
-    return json_dataset(str(DATA_PATH), sample_fields=record_to_sample)
+    return json_dataset(str(data_path), sample_fields=record_to_sample)
+
+
+def dataset_for(condition: Condition):
+    """Build counterbalanced exploratory samples for one condition."""
+    return _dataset_for_path(condition, CALIBRATION_PATH)
+
+
+def confirmatory_dataset_for(condition: Condition):
+    """Build held-out unique-item samples for one frozen condition."""
+    return _dataset_for_path(condition, CONFIRMATORY_PATH)

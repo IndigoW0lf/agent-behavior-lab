@@ -121,3 +121,8 @@ def exact_mcnemar_p_value(counts: PairedCounts) -> float:
 
     lower_tail = sum(comb(discordant, value) for value in range(min(b, c) + 1))
     return min(1.0, 2 * lower_tail / (2**discordant))
+
+
+def confirmatory_success(accuracy_change: float, p_value: float) -> bool:
+    """Apply the frozen directional-effect and two-sided alpha rule."""
+    return accuracy_change < 0 and p_value < 0.05
