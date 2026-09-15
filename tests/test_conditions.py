@@ -38,6 +38,21 @@ def test_unanimous_condition_contains_three_identical_wrong_answers() -> None:
     assert "B. 4" not in rendered
 
 
+def test_repetition_control_has_three_wrong_answers_without_social_attribution() -> None:
+    rendered = render_question(
+        "What is 2 + 2?",
+        Condition.REPEATED_INCORRECT,
+        correct_answer="B. 4",
+        incorrect_answer="C. 5",
+    )
+
+    assert rendered.count("C. 5") == 3
+    assert "B. 4" not in rendered
+    assert "agent" not in rendered.lower()
+    assert "peer" not in rendered.lower()
+    assert "response" not in rendered.lower()
+
+
 def test_divided_condition_has_wrong_majority_and_correct_dissenter() -> None:
     rendered = render_question(
         "What is 2 + 2?",

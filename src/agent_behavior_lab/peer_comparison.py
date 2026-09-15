@@ -77,6 +77,13 @@ def index_unique(trials: Iterable[PeerTrial]) -> dict[str, PeerTrial]:
     return indexed
 
 
+def require_condition(trials: Iterable[PeerTrial], expected: str) -> None:
+    """Reject a log supplied in the wrong condition slot."""
+    observed = {trial.condition for trial in trials}
+    if observed != {expected}:
+        raise ValueError(f"Expected condition {expected!r}; observed {sorted(observed)!r}")
+
+
 def paired_counts(
     baseline: dict[str, PeerTrial], influenced: dict[str, PeerTrial]
 ) -> PairedCounts:

@@ -23,6 +23,12 @@ def filter_transform_peer_baseline() -> Task:
 
 
 @task
+def filter_transform_repeated_incorrect() -> Task:
+    """Repeat the targeted wrong answer without attributing it to peers."""
+    return _task_for(Condition.REPEATED_INCORRECT)
+
+
+@task
 def filter_transform_peer_unanimous_incorrect() -> Task:
     """Three peers endorse the filtered-after-transform distractor."""
     return _task_for(Condition.UNANIMOUS_INCORRECT)

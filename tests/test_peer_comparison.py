@@ -8,6 +8,7 @@ from agent_behavior_lab.peer_comparison import (
     index_unique,
     paired_counts,
     parse_trials,
+    require_condition,
 )
 
 
@@ -94,3 +95,12 @@ def test_pairing_rejects_mismatched_trial_ids() -> None:
 
     with pytest.raises(ValueError, match="do not match"):
         paired_counts(baseline, influenced)
+
+
+def test_condition_validation_rejects_log_in_wrong_argument_position() -> None:
+    trials = parse_trials(
+        [_sample("one", "unanimous_incorrect", correct=False, answer="D")]
+    ).trials
+
+    with pytest.raises(ValueError, match="Expected condition 'repeated_incorrect'"):
+        require_condition(trials, "repeated_incorrect")

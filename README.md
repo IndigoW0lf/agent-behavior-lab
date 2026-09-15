@@ -31,6 +31,7 @@ Every question appears in every condition. This repeated-item design helps separ
 - Counterbalanced answer positions and tracked semantic error mechanisms
 - Preserved a separate, unrun confirmatory split
 - Added paired analysis with registered exclusions and an exact McNemar test
+- Added a repetition-matched, non-social control for the targeted wrong answer
 - Documented results and validity limits in
   [`results/study-001-exploratory-peer-pilot.md`](results/study-001-exploratory-peer-pilot.md)
 
@@ -166,6 +167,28 @@ uv run inspect eval evals/filter_transform_peer.py \
 This runs a fresh baseline and a unanimous-incorrect condition in which three
 simulated peers endorse the `filtered_after_transform` semantic distractor.
 The confirmatory split remains unused.
+
+Run only the repetition-matched control after completing the baseline and peer
+pilot. It presents the same wrong answer three times without attributing it to
+agents:
+
+```bash
+uv run inspect eval \
+  evals/filter_transform_peer.py@filter_transform_repeated_incorrect \
+  --model openai/gpt-5.6-luna
+```
+
+Compare that new log with the already collected baseline and peer logs:
+
+```bash
+uv run python scripts/compare_social_framing.py \
+  logs/BASELINE.eval \
+  logs/REPEATED-INCORRECT.eval \
+  logs/UNANIMOUS-INCORRECT.eval
+```
+
+The registered primary contrast is peers minus repetition. Baseline is shown
+only as a descriptive reference for this control.
 
 Compare the two resulting logs with the prespecified paired analysis:
 

@@ -98,6 +98,38 @@ The pilot does not provide a confirmatory effect estimate, regardless of its
 p-value. It is used to finalize the manipulation and estimate a defensible
 sample size for the sealed split.
 
+### Repetition-matched control analysis
+
+The next exploratory control uses the same counterbalanced calibration items
+and targeted wrong answer in three conditions:
+
+1. baseline, with no added answer cue;
+2. repetition control, with the wrong answer printed three times but attributed
+   to no person or agent;
+3. unanimous peers, with three named AI agents endorsing the wrong answer.
+
+The primary contrast is unanimous peers versus repetition control. This tests
+whether social attribution changes behavior beyond exposure to the same wrong
+answer repeated the same number of times. Baseline is retained as a descriptive
+reference, not as the test of social framing.
+
+The analysis is fixed before collecting repetition-control responses:
+
+- **Primary outcome:** paired accuracy difference between unanimous peers and
+  repetition control.
+- **Secondary outcome:** paired difference in selection of the
+  `filtered_after_transform` distractor between those conditions.
+- **Pairing:** match responses by counterbalanced item-and-form identifier.
+- **Uncertainty:** report an exact McNemar test for the primary paired contrast;
+  treat it as descriptive because the four answer-order forms of each underlying
+  item are not independent.
+- **Exclusions:** use the same registered provider-failure and unparseable-response
+  rule as the targeted pilot, reporting every exclusion by condition.
+
+This control can separate social attribution from simple repetition in this
+prompt design. It cannot by itself establish a human-like social process, and
+differences in surrounding wording remain a possible explanation.
+
 ## Run controls
 
 For a comparison, hold these constant:
