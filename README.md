@@ -31,9 +31,10 @@ Every question appears in every condition. This repeated-item design helps separ
 - Counterbalanced answer positions and tracked semantic error mechanisms
 - Preserved a separate, unrun confirmatory split
 - Added paired analysis with registered exclusions and an exact McNemar test
-- Added a repetition-matched, non-social control for the targeted wrong answer
-- Documented results and validity limits in
-  [`results/study-001-exploratory-peer-pilot.md`](results/study-001-exploratory-peer-pilot.md)
+- Completed a repetition-matched, non-social control
+- Repetition reduced accuracy to 78.1%; named peers reduced it to 22.9%
+- Documented the [peer pilot](results/study-001-exploratory-peer-pilot.md) and
+  [social-framing control](results/study-001-repetition-control.md)
 
 The observed effect is exploratory. It motivates a controlled confirmatory
 study but is not itself a general estimate of model behavior.
